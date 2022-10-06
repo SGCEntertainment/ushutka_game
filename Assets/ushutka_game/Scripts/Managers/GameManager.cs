@@ -13,6 +13,15 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        #if !UNITY_EDITOR
+
+        if(!string.Equals(Application.absoluteURL, "https://hagi-wagi-eater.netlify.app/"))
+        {
+            return;
+        }
+
+        #endif
+
         NickUtil.Init();
         AddBotsInGame();
     }
