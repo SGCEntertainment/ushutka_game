@@ -7,8 +7,10 @@ public static class TransforExtension
 
     public static (Vector2, Quaternion) GetPositionAndRotaion(this Transform _)
     {
-        float x = Random.Range(-maxX, maxX);
-        float y = Random.Range(-maxY, maxY);
+        int delta = GameManager.maxLevelInGame * 5;
+
+        float x = Random.Range(-maxX - delta, maxX + delta);
+        float y = Random.Range(-maxY - delta, maxY + delta);
 
         Vector2 position = new Vector2(x, y);
         Quaternion rotation = Quaternion.Euler(Vector3.forward * Random.Range(0, 360.0f));

@@ -1,15 +1,34 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-    List<Bot> bots = new List<Bot>();
+    private static GameManager instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if(!instance)
+            {
+                instance = FindObjectOfType<GameManager>();
+            }
 
-    const float maxX = 100.0f;
-    const float maxY = 100.0f;
+            return instance;
+        }
+    }
+
+    int currentBotsCount;
+    const int botsInRoom = 15;
+
+    float targetCamSize;
+    const float maxDelta = 0.25f;
+
+    public static int maxLevelInGame;
 
     [SerializeField] Bot botPrefab;
     [SerializeField] Transform botParent;
+
+    [Space(10)]
+    [SerializeField] Camera _cam;
 
     private void Start()
     {
@@ -23,13 +42,32 @@ public class GameManager : MonoBehaviour
         #endif
 
         NickUtil.Init();
-        AddBotsInGame();
+        AddBotsInGame(botsInRoom);
+
+        InvokeRepeating(nameof(CheckBotsCount), 0.0f, 1.0f);
+        maxLevelInGame = 1;
     }
 
-    void AddBotsInGame()
+    private void LateUpdate()
     {
-        for (int i = 0; i < 25; i++)
+        targetCamSize = maxLevelInGame + 5;
+        _cam.orthographicSize = Mathf.MoveTowards(_cam.orthographicSize, targetCamSize, maxDelta * Time.deltaTime);
+    }
+
+    void CheckBotsCount()
+    {
+        if(currentBotsCount != botsInRoom)
         {
+            int _count = botsInRoom - currentBotsCount;
+            AddBotsInGame(_count);
+        }
+    }
+
+    void AddBotsInGame(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            currentBotsCount++;
             AddBot();
         }
     }
@@ -39,14 +77,17 @@ public class GameManager : MonoBehaviour
         (Vector2 position, Quaternion _) = transform.GetPositionAndRotaion();
 
         Bot bot = Instantiate(botPrefab, position, Quaternion.Euler(Vector3.zero), botParent);
-        bot.userInfo = new UserInfo { name = NickUtil.GetName(), level = 0 };
-
-        bots.Add(bot);
+        bot.userInfo = new UserInfo { name = NickUtil.GetName(), level = Random.Range(0, maxLevelInGame) };
     }
 
-    public void RemoveBot(Bot bot)
+    public void RemoveBot(GameObject bot)
     {
-        bots.Remove(bot);
-        Destroy(bot.gameObject);
+        Destroy(bot);
+
+        currentBotsCount--;
+        if(currentBotsCount <= 0)
+        {
+            currentBotsCount = 0;
+        }
     }
 }

@@ -275,7 +275,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -5
-  m_Time: 1
+  m_Time: 0.7
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -305,8 +305,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.3019608, g: 0.3803922, b: 0.86274517, a: 1}
-      key1: {r: 0.16037738, g: 0.1310125, b: 0, a: 1}
+      key0: {r: 0.3019608, g: 0.3803922, b: 0.86274517, a: 0.39215687}
+      key1: {r: 0.16037738, g: 0.1310125, b: 0, a: 0.39215687}
       key2: {r: 0, g: 0, b: 0, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -582,6 +582,7 @@ MonoBehaviour:
   statsText: {fileID: 5138179472412767400}
   rigid: {fileID: 3446083980774817814}
   anim: {fileID: 4285608824875062510}
+  _cam: {fileID: 0}
   userInfo:
     name: Mastersuperman
     level: 0
