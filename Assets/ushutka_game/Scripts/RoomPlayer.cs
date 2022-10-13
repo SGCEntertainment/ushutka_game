@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RoomPlayer : MonoBehaviour
 {
+    [HideInInspector]
     public int spawnedId;
 
     public static RoomPlayer Local;

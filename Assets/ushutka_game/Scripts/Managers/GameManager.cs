@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     }
 
     int currentBotsCount;
-    const int botsInRoom = 15;
+    const int botsInRoom = 25;
 
     float targetCamSize;
     const float maxDelta = 0.25f;
