@@ -1,3 +1,4 @@
+using System.Resources;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -24,8 +25,8 @@ public class GameManager : MonoBehaviour
 
     public static int maxLevelInGame;
 
-    [SerializeField] Bot botPrefab;
-    [SerializeField] Transform botParent;
+    //[SerializeField] Bot botPrefab;
+    [SerializeField] Transform parent;
 
     [Space(10)]
     [SerializeField] Camera _cam;
@@ -42,52 +43,26 @@ public class GameManager : MonoBehaviour
         #endif
 
         NickUtil.Init();
-        AddBotsInGame(botsInRoom);
 
-        InvokeRepeating(nameof(CheckBotsCount), 0.0f, 1.0f);
-        maxLevelInGame = 1;
-    }
-
-    private void LateUpdate()
-    {
-        targetCamSize = maxLevelInGame + 5;
-        _cam.orthographicSize = Mathf.MoveTowards(_cam.orthographicSize, targetCamSize, maxDelta * Time.deltaTime);
-    }
-
-    void CheckBotsCount()
-    {
-        if(currentBotsCount != botsInRoom)
+        for(int i = 0; i < botsInRoom; i++)
         {
-            int _count = botsInRoom - currentBotsCount;
-            AddBotsInGame(_count);
+            SpawnPlayer(i);
         }
     }
 
-    void AddBotsInGame(int count)
+    public void SpawnPlayer(int spawnedId)
     {
-        for (int i = 0; i < count; i++)
-        {
-            currentBotsCount++;
-            AddBot();
-        }
-    }
+        (Vector2 position, Quaternion rotation) = transform.GetPositionAndRotaion();
 
-    public void AddBot()
-    {
-        (Vector2 position, Quaternion _) = transform.GetPositionAndRotaion();
+        var prefabId = Random.Range(0, ResourceManager.Instance.characterDefinitions.Length);
+        var prefab = ResourceManager.Instance.characterDefinitions[prefabId].prefab;
 
-        Bot bot = Instantiate(botPrefab, position, Quaternion.Euler(Vector3.zero), botParent);
-        bot.userInfo = new UserInfo { name = NickUtil.GetName(), level = Random.Range(0, maxLevelInGame) };
-    }
+        var entity = Instantiate(prefab, position, rotation, parent);
 
-    public void RemoveBot(GameObject bot)
-    {
-        Destroy(bot);
+        entity.RoomUser.Username = NickUtil.GetName();
+        entity.RoomUser.spawnedId = spawnedId;
 
-        currentBotsCount--;
-        if(currentBotsCount <= 0)
-        {
-            currentBotsCount = 0;
-        }
+        Debug.Log($"Spawning character for {entity.RoomUser.Username} as {entity.name}");
+        entity.transform.name = $"Character ({entity.RoomUser.Username})";
     }
 }
