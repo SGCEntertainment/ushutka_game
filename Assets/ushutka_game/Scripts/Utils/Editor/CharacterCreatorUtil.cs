@@ -5,11 +5,6 @@ using UnityEngine;
 using System;
 using UnityEditor.Animations;
 using System.Threading;
-using System.Security.Cryptography;
-using System.Collections;
-using Unity.Mathematics;
-using UnityEngine.UIElements;
-using UnityEditor.Experimental.TerrainAPI;
 
 public class CharacterCreatorLogHandler : ILogHandler
 {
