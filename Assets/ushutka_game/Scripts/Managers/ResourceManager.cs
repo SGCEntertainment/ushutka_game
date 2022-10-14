@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class ResourceManager : MonoBehaviour
 {
@@ -10,7 +11,6 @@ public class ResourceManager : MonoBehaviour
             if(!instance)
             {
                 instance = FindObjectOfType<ResourceManager>();
-                DontDestroyOnLoad(instance.gameObject);
             }
 
             return instance;
@@ -19,5 +19,5 @@ public class ResourceManager : MonoBehaviour
 
     //public GameUI hudPrefab;
     //public NicknameUI nicknameCanvasPrefab;
-    public CharacterDefinition[] characterDefinitions;
+    public List<CharacterDefinition> characterDefinitions;
 }

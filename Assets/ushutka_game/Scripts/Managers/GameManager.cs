@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     }
 
     int currentBotsCount;
-    const int botsInRoom = 25;
+    const int playersInRoom = 25;
 
     float targetCamSize;
     const float maxDelta = 0.25f;
@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
 
         NickUtil.Init();
 
-        for(int i = 0; i < botsInRoom; i++)
+        for(int i = 0; i < playersInRoom; i++)
         {
             SpawnPlayer(i);
         }
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     {
         (Vector2 position, Quaternion rotation) = transform.GetPositionAndRotaion();
 
-        var prefabId = Random.Range(0, ResourceManager.Instance.characterDefinitions.Length);
+        var prefabId = Random.Range(0, ResourceManager.Instance.characterDefinitions.Count);
         var prefab = ResourceManager.Instance.characterDefinitions[prefabId].prefab;
 
         var entity = Instantiate(prefab, position, rotation, parent);
@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         entity.RoomUser.Username = NickUtil.GetName();
         entity.RoomUser.spawnedId = spawnedId;
 
-        Debug.Log($"Spawning character for {entity.RoomUser.Username} as {entity.name}");
-        entity.transform.name = $"Character ({entity.RoomUser.Username})";
+        Debug.Log($"Spawning character for {entity.RoomUser.Username} as {prefab.name}");
+        entity.transform.name = $"{prefab.name} ({entity.RoomUser.Username})";
     }
 }
