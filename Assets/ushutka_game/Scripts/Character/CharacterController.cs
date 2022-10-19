@@ -5,15 +5,16 @@ public class CharacterController : CharacterComponent
     Vector2 target;
     Vector2 direction;
 
-    bool IsIdle
+    public bool IsIdle
     {
-        get => (Vector2)transform.position == target;
+        get => CharacterEntity.ProgressController.followerRef ? 
+            CharacterEntity.ProgressController.followerRef.Controller.IsIdle : (Vector2)transform.position == target;
     }
 
     Rigidbody2D rigid;
 
     [SerializeField] float rotSpeed;
-    [SerializeField] float moveSpeed;
+    public float moveSpeed;
 
     private void Start()
     {

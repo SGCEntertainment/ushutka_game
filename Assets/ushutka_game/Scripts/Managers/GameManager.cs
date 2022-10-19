@@ -17,10 +17,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    const int playersInRoom = 25;
+    const int playersInRoom = 6;
     public static int maxLevelInGame;
 
-    //[SerializeField] Bot botPrefab;
     [SerializeField] Transform parent;
 
     [Space(10)]
@@ -67,5 +66,10 @@ public class GameManager : MonoBehaviour
 
         Debug.Log($"Spawning character for {entity.RoomUser.Username} as {prefab.name}");
         entity.transform.name = $"{prefab.name} ({entity.RoomUser.Username})";
+
+        if(spawnedId == 0)
+        {
+            entity.Controller.moveSpeed = 20;
+        }
     }
 }

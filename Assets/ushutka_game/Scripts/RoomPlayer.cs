@@ -46,6 +46,11 @@ public class RoomPlayer : CharacterComponent
 
     private void Update()
     {
+        if(!WorldUINickname)
+        {
+            return;
+        }
+
         WorldUINickname.UpdateUIName($"{Username}({CharacterEntity.ProgressController.level})");
     }
 

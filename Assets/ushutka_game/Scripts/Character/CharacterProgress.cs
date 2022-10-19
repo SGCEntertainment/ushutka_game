@@ -1,8 +1,11 @@
 using UnityEngine;
 using System.Collections.Generic;
+using TMPro;
 
 public class CharacterProgress : CharacterComponent
 {
+    public bool im;
+
     public int level;
     public int count;
 
@@ -14,7 +17,8 @@ public class CharacterProgress : CharacterComponent
 
     private void Start()
     {
-        level = AuthorityUtil.HasInputAuthority(CharacterEntity.RoomUser) ? 1 : 1;
+        im = AuthorityUtil.HasInputAuthority(CharacterEntity.RoomUser);
+        level = AuthorityUtil.HasInputAuthority(CharacterEntity.RoomUser) ? 1 : Random.Range(1,1);
 
         places = new Transform[transform.parent.GetChild(1).childCount];
         for(int i = 0; i < places.Length; i++)
@@ -41,7 +45,6 @@ public class CharacterProgress : CharacterComponent
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        bool im = AuthorityUtil.HasInputAuthority(CharacterEntity.RoomUser);
         CharacterProgress collided = collision.gameObject.GetComponent<CharacterProgress>();
 
         if(collided.CharacterEntity.ProgressController.followerRef == CharacterEntity)
@@ -49,7 +52,7 @@ public class CharacterProgress : CharacterComponent
             return;
         }
 
-        if(level > collided.level || (level == collided.level && im))
+        if(level > collided.level || (level == collided.level && im) || level == collided.level && count > collided.count)
         {
             if (count >= 3)
             {
@@ -69,13 +72,27 @@ public class CharacterProgress : CharacterComponent
             }
 
             Transform freePlace = followerRef ? followerRef.ProgressController.GetFreePlace() : GetFreePlace();
-            collided.CharacterEntity.Input.SetFollow(freePlace);
-            collided.CharacterEntity.ProgressController.SetParentRef(CharacterEntity);
 
-            Destroy(collided.CharacterEntity.RoomUser.WorldUINickname.gameObject);
+            collided.CharacterEntity.Input.SetFollow(freePlace);
+            collided.CharacterEntity.ProgressController.SetParentRef(followerRef ? followerRef : CharacterEntity);
+            collided.CharacterEntity.ProgressController.level = followerRef ? followerRef.ProgressController.level : level;
+            collided.CharacterEntity.Controller.moveSpeed = CharacterEntity.Controller.moveSpeed;
+            collided.CharacterEntity.ProgressController.im = im;
+
+            if (collided.CharacterEntity.RoomUser.WorldUINickname)
+            {
+                Destroy(collided.CharacterEntity.RoomUser.WorldUINickname.gameObject);
+            }
 
             characterEntities.Add(collided.CharacterEntity);
-            count++;
+            if(followerRef)
+            {
+                followerRef.CharacterEntity.ProgressController.count++;
+            }
+            else
+            {
+                count++;
+            }
         }
     }
 
