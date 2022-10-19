@@ -174,7 +174,7 @@ public static class CharacterCreatorUtil
         characterGO.AddComponent<CharacterController>();
         characterGO.AddComponent<CharacterInput>();
         characterGO.AddComponent<CharacterCamera>();
-        characterGO.AddComponent<CharacterProgressController>();
+        characterGO.AddComponent<CharacterProgress>();
         characterGO.AddComponent<RoomPlayer>();
 
         GameObject bodyGO = new GameObject("body");

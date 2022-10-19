@@ -3,6 +3,8 @@ using UnityEngine;
 public class CharacterInput : CharacterComponent
 {
     Vector2 target;
+    public Transform follow;
+
     float IdleTime
     {
         get => Random.Range(0.25f, 1.25f);
@@ -15,6 +17,14 @@ public class CharacterInput : CharacterComponent
 
     private void Update()
     {
+        if(follow)
+        {
+            target = (Vector2)follow.position;
+            CharacterEntity.Controller.SetTargetPosition(target);
+
+            return;
+        }
+
         if(!AuthorityUtil.HasInputAuthority(CharacterEntity.RoomUser))
         {
             if ((Vector2)transform.position == target)
@@ -48,5 +58,11 @@ public class CharacterInput : CharacterComponent
     void FindNewTarget()
     {
         CharacterEntity.Controller.SetTargetPosition(target);
+    }
+
+    public void SetFollow(Transform _follow)
+    {
+        follow = _follow;
+        transform.SetParent(_follow);
     }
 }

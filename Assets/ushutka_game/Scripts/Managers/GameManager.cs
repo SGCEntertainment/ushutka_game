@@ -17,12 +17,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    int currentBotsCount;
     const int playersInRoom = 25;
-
-    float targetCamSize;
-    const float maxDelta = 0.25f;
-
     public static int maxLevelInGame;
 
     //[SerializeField] Bot botPrefab;
@@ -61,6 +56,14 @@ public class GameManager : MonoBehaviour
 
         entity.RoomUser.Username = NickUtil.GetName();
         entity.RoomUser.spawnedId = spawnedId;
+        entity.RoomUser.prefab = prefab;
+
+        WorldUINickname namePrefab = ResourceManager.Instance.worldUINickname;
+        Vector2 namePosition = (Vector2)entity.transform.position + Vector2.up;
+        Quaternion nameRotation = Quaternion.Euler(Vector3.zero);
+        Transform nameParent = entity.transform;
+
+        entity.RoomUser.WorldUINickname = Instantiate(namePrefab, namePosition, nameRotation, nameParent);
 
         Debug.Log($"Spawning character for {entity.RoomUser.Username} as {prefab.name}");
         entity.transform.name = $"{prefab.name} ({entity.RoomUser.Username})";

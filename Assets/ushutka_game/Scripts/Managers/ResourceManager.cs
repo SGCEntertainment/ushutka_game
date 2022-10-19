@@ -17,7 +17,6 @@ public class ResourceManager : MonoBehaviour
         }
     }
 
-    //public GameUI hudPrefab;
-    //public NicknameUI nicknameCanvasPrefab;
+    public WorldUINickname worldUINickname;
     public List<CharacterDefinition> characterDefinitions;
 }

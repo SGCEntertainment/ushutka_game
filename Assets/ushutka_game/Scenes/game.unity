@@ -511,6 +511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24331add4989ed743bda494e5292eb49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worldUINickname: {fileID: 7880568494887196397, guid: 9950b5583c4c8e340824efddffa5d162, type: 3}
   characterDefinitions:
   - {fileID: 11400000, guid: 3431b9bea590ad44faca10fedef5e909, type: 2}
   - {fileID: 11400000, guid: 2bc8a0cc420763a4f9f530eadb5e8780, type: 2}

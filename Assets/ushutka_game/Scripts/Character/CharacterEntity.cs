@@ -10,7 +10,7 @@ public class CharacterEntity : CharacterComponent
     public CharacterCamera Camera { get; private set; }
     public CharacterController Controller { get; private set; }
     public CharacterInput Input { get; private set; }
-    public CharacterProgressController ProgressController { get; private set; }
+    public CharacterProgress ProgressController { get; private set; }
     public Rigidbody2D Rigidbody { get; private set; }
     public RoomPlayer RoomUser { get; set; }
 
@@ -21,7 +21,7 @@ public class CharacterEntity : CharacterComponent
         Camera = GetComponent<CharacterCamera>();
         Controller = GetComponent<CharacterController>();
         Input = GetComponent<CharacterInput>();
-        ProgressController = GetComponent<CharacterProgressController>();
+        ProgressController = GetComponentInChildren<CharacterProgress>();
         Rigidbody = transform.GetChild(0).GetComponent<Rigidbody2D>();
         RoomUser = GetComponent<RoomPlayer>();
 

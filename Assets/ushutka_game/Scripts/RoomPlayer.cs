@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomPlayer : MonoBehaviour
+public class RoomPlayer : CharacterComponent
 {
-    [HideInInspector]
     public int spawnedId;
+    public CharacterEntity prefab;
 
     public static RoomPlayer Local;
 
@@ -17,19 +17,26 @@ public class RoomPlayer : MonoBehaviour
 
     public CharacterController Character { get; set; }
 
+    public WorldUINickname WorldUINickname;
+
     public string Username { get; set; }
 
     public int SkinID { get; set; }
 
     private void Start()
     {
-        if (AuthorityUtil.HasInputAuthority(this))
-        {
-            Local = this;
+        Username = NickUtil.GetName();
+        //if (AuthorityUtil.HasInputAuthority(this))
+        //{
+        //    Local = this;
 
-            PlayerChanged?.Invoke(this);
-            SetPlayerStats(UserInfo.Username, UserInfo.SkinID);
-        }
+        //    PlayerChanged?.Invoke(this);
+        //    SetPlayerStats(UserInfo.Username, UserInfo.SkinID);
+        //}
+        //else
+        //{
+        //    Username = NickUtil.GetName();
+        //}
 
         Players.Add(this);
         PlayerJoined?.Invoke(this);
@@ -37,9 +44,14 @@ public class RoomPlayer : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private void Update()
+    {
+        WorldUINickname.UpdateUIName($"{Username}({CharacterEntity.ProgressController.level})");
+    }
+
     private void SetPlayerStats(string username, int skinID)
     {
         Username = username;
-        SkinID = SkinID;
+        SkinID = skinID;
     }
 }
