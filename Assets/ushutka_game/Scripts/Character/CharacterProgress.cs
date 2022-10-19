@@ -72,6 +72,8 @@ public class CharacterProgress : CharacterComponent
             collided.CharacterEntity.Input.SetFollow(freePlace);
             collided.CharacterEntity.ProgressController.SetParentRef(CharacterEntity);
 
+            Destroy(collided.CharacterEntity.RoomUser.WorldUINickname.gameObject);
+
             characterEntities.Add(collided.CharacterEntity);
             count++;
         }
