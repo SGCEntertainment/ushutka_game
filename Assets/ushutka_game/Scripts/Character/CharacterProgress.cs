@@ -18,7 +18,7 @@ public class CharacterProgress : CharacterComponent
     private void Start()
     {
         im = AuthorityUtil.HasInputAuthority(CharacterEntity.RoomUser);
-        level = AuthorityUtil.HasInputAuthority(CharacterEntity.RoomUser) ? 1 : Random.Range(1,1);
+        level = AuthorityUtil.HasInputAuthority(CharacterEntity.RoomUser) ? 1 : Random.Range(1,3);
 
         places = new Transform[transform.parent.GetChild(1).childCount];
         for(int i = 0; i < places.Length; i++)
@@ -46,13 +46,17 @@ public class CharacterProgress : CharacterComponent
     private void OnCollisionEnter2D(Collision2D collision)
     {
         CharacterProgress collided = collision.gameObject.GetComponent<CharacterProgress>();
+        if(!collided)
+        {
+            return;
+        }
 
         if(collided.CharacterEntity.ProgressController.followerRef == CharacterEntity)
         {
             return;
         }
 
-        if(level > collided.level || (level == collided.level && im) || level == collided.level && count > collided.count)
+        if(level > collided.level || (level == collided.level && im))
         {
             if (count >= 3)
             {
@@ -79,9 +83,13 @@ public class CharacterProgress : CharacterComponent
             collided.CharacterEntity.Controller.moveSpeed = CharacterEntity.Controller.moveSpeed;
             collided.CharacterEntity.ProgressController.im = im;
 
+            Destroy(collided.transform.parent.GetChild(1).gameObject);
+            Destroy(collided);
+
             if (collided.CharacterEntity.RoomUser.WorldUINickname)
             {
                 Destroy(collided.CharacterEntity.RoomUser.WorldUINickname.gameObject);
+                collided.CharacterEntity.RoomUser.WorldUINickname = null;
             }
 
             characterEntities.Add(collided.CharacterEntity);

@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    const int playersInRoom = 6;
+    const int playersInRoom = 25;
     public static int maxLevelInGame;
 
     [SerializeField] Transform parent;
